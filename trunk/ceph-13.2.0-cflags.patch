@@ -11,16 +11,3 @@ index d6572115a4..cc0bdddc9f 100644
    list(APPEND boost_features "cxxflags=${BOOST_CXXFLAGS}")
  
    list(FIND Boost_BUILD_COMPONENTS "python" with_python)
-diff --git a/src/compressor/zstd/CMakeLists.txt b/src/compressor/zstd/CMakeLists.txt
-index 5a80aa539c..8d6ff5c8f0 100644
---- a/src/compressor/zstd/CMakeLists.txt
-+++ b/src/compressor/zstd/CMakeLists.txt
-@@ -1,7 +1,7 @@
- # zstd
- 
- # libzstd - build it statically
--set(ZSTD_C_FLAGS "-fPIC -Wno-unused-variable -O3")
-+set(ZSTD_C_FLAGS "-fPIC -Wno-unused-variable $ENV{CFLAGS} -O3")
- 
- include(ExternalProject)
- ExternalProject_Add(zstd_ext
