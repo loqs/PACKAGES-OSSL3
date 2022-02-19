@@ -3,14 +3,14 @@
 
 pkgbase='ceph'
 pkgname=('ceph' 'ceph-libs' 'ceph-mgr')
-_zstdver=1.5.0
+_zstdver=1.5.2
 pkgver=15.2.14
 pkgrel=5
 pkgdesc='Distributed, fault-tolerant storage platform delivering object, block, and file system'
 arch=('x86_64')
 url='https://ceph.com/'
 license=('GPL')
-makedepends=("zstd=${_zstdver}" 'bash' 'bc' 'boost' 'boost-libs' 'bzip2' 'c-ares' 'cmake' 'coreutils' 'coffeescript'
+makedepends=('bash' 'bc' 'boost' 'boost-libs' 'bzip2' 'c-ares' 'cmake' 'coreutils' 'coffeescript'
              'cpio' 'crypto++' 'cryptsetup' 'cunit' 'curl' 'cython' 'expat'
              'fcgi' 'fontconfig' 'fuse2' 'fuse3' 'fmt' 'gcc' 'gcc-libs' 'git' 'glibc' 'gmock' 'gnutls'
              'gperf' 'gperftools' 'gptfdisk' 'gtest' 'hwloc' 'inetutils' 'java-runtime'
@@ -38,7 +38,7 @@ makedepends=("zstd=${_zstdver}" 'bash' 'bc' 'boost' 'boost-libs' 'bzip2' 'c-ares
              'xfsprogs' 'xmlstarlet' 'xmlsec' 'xxhash' 'yaml-cpp' 'yasm' 'zlib' )
 checkdepends=('python-mock' 'python-nose' 'python-pycodestyle' 'python-pylint'
               'python-pytest' 'python-pytest-cov')
-options=('emptydirs')
+options=('emptydirs' '!lto')
 source=(
   "https://download.ceph.com/tarballs/${pkgbase}-${pkgver}.tar.gz"
   'ceph.sysusers'
@@ -70,7 +70,7 @@ source=(
 )
 sha512sums=('eacc4dea0d8dfe2753aff78d89324d81c5634a784313c3da8ded778e2734958c216f8c705b25f070d7ba66b559424ad3c47cb68852f66f8c9c83a83ca78ad5a5'
             '4354001c1abd9a0c385ba7bd529e3638fb6660b6a88d4e49706d4ac21c81b8e829303a20fb5445730bdac18c4865efb10bc809c1cd56d743c12aa9a52e160049'
-            '25b657529a698eec891f92ff4a085d1fd95d2ff938ce52c8a4ff6163eb0b668ec642dd09e0db190652638cd92371006afa01d8e437437762c4097ad301675c33'
+            'e107508a41fca50845cc2494e64adaba93efb95a2fa486fc962510a8ba4b2180d93067cae9870f119e88e5e8b28a046bc2240b0b23cdd8933d1fb1a6a9668c1e'
             '9e6bb46d5bbdc5d93f4f026b2a8d6bdb692d9ea6e7018c1bb0188d95ea8574c76238d968b340fd67ddaa3d8183b310e393e3549dc3a63a795fde696413b0ca94'
             '6ff46a90d76f667fa23be0f9eb1ed2fb7e30af9a2621aec19944d0a22a431a0f5721603c588286e483ff55c14aac920adfccb039c9678a87cc59640dd70367ae'
             '8ec0d668fefee12d2c7f5b5297dd81fc6a559f5823d069e6395d9b4240110eb8f95049d3054697a459948c1f3784b4450539849cf9d7f3b1aa1c7fbd96c475df'
