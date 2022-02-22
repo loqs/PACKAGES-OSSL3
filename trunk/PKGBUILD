@@ -9,11 +9,14 @@ url='https://github.com/etesync/libetebase'
 license=(BSD)
 depends=(openssl gcc-libs libsodium)
 makedepends=(rust)
-source=(https://github.com/etesync/libetebase/archive/v$pkgver/$pkgname-$pkgver.tar.gz)
-sha256sums=('e98940d3f15a81609bb582c53428f3cb2871c7ea36693905e2229e86faf56438')
+source=(https://github.com/etesync/libetebase/archive/v$pkgver/$pkgname-$pkgver.tar.gz
+        libetebase-openssl-crates-update.patch)
+sha256sums=('e98940d3f15a81609bb582c53428f3cb2871c7ea36693905e2229e86faf56438'
+            '9e6eee5a4c0b05c03a0084a6650184c9b0677a510c1e7a7dfa48e024664d5afc')
 
 prepare() {
   cd $pkgname-$pkgver
+  patch -Np1 -i ../libetebase-openssl-crates-update.patch
   cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
 }
 
