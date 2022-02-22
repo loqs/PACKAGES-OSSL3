@@ -11,11 +11,22 @@ license=('BSD')
 depends=('openssl')
 makedepends=('cmake' 'python')
 optdepends=('python: to use event_rpcgen.py')
-source=(https://github.com/libevent/libevent/releases/download/release-$pkgver-stable/$pkgname-$pkgver-stable.tar.gz{,.asc})
+source=(https://github.com/libevent/libevent/releases/download/release-$pkgver-stable/$pkgname-$pkgver-stable.tar.gz{,.asc}
+        https://github.com/libevent/libevent/commit/1933f6aaddd190167b180da7138a5df4c51517bb.patch
+        libevent-2.1.12-openssl-compat.patch
+       )
 sha256sums=('92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb'
-            'SKIP')
+            'SKIP'
+            'bae97798bbfadc79ed71a479c78b7ad85fa2229cb86d1c0d45d9a018849bc7e8'
+            '2f494a0d75447be042f5e1223b611c7aca6e9fbb6f2362301991e99a78b4421a')
 validpgpkeys=('B35BF85BF19489D04E28C33C21194EBB165733EA'
               '9E3AC83A27974B84D1B3401DB86086848EF8686D')
+
+prepare() {
+  cd ${pkgname}-${pkgver}-stable
+  patch -Np1 -i ../1933f6aaddd190167b180da7138a5df4c51517bb.patch
+  patch -Np1 -i ../libevent-2.1.12-openssl-compat.patch
+}
 
 build() {
   cd ${pkgname}-${pkgver}-stable
