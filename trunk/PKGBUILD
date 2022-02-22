@@ -57,7 +57,7 @@ build() {
 		"-Wa,--noexecstack ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}"
 
 	make depend
-	make
+	OPENSSL_CONF= make #prevent newly built openssl command using incompatible config
 }
 
 check() {
