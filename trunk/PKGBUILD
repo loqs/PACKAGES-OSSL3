@@ -25,6 +25,26 @@ build() {
 
 check() {
   cd ${pkgname}1-$pkgver
+
+  # Use a custom OPENSSL_CONF to ensure the legacy provider expected by tests is loaded
+  cat << EOF > ssl.cnf
+openssl_conf = openssl_init
+
+[openssl_init]
+providers = provider_sect
+
+[provider_sect]
+default = default_sect
+legacy = legacy_sect
+
+[default_sect]
+activate = 1
+
+[legacy_sect]
+activate = 1
+EOF
+  export OPENSSL_CONF="$PWD/ssl.cnf"
+
   make -k check
 }
 
