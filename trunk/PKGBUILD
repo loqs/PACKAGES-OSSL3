@@ -14,11 +14,11 @@ depends=('glibc' 'openssl')
 makedepends=('git' 'gnu-efi' 'help2man' 'util-linux-libs')
 source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/jejb/sbsigntools.git#tag=v${pkgver}?signed"
         "git+https://git.ozlabs.org/ccan"
-        "0.9.4-fix-pe-coff-checksum.patch"
+         https://src.fedoraproject.org/rpms/sbsigntools/raw/rawhide/f/sbsigntools-openssl3.patch
         )
 sha256sums=('SKIP'
             'SKIP'
-            'b6b56c5568bcc51ae3c0dea9af02bc840241d2405c300c5b7adcb61962dadf01')
+            '47b537dc063d26dc2eb3e2dc008539252e9e963d2e2becef1250cb409e01924e')
 validpgpkeys=('D5606E73C8B46271BEAD9ADF814AE47C214854D6') # James Bottomley <jejb@kernel.org>
 
 prepare() {
@@ -26,13 +26,12 @@ prepare() {
   git submodule init
   git config submodule."lib/ccan.git".url "${srcdir}/ccan"
   git submodule update
+  patch -Np1 -i "${srcdir}"/sbsigntools-openssl3.patch
   ./autogen.sh
-  # fix #FS#71822
-  # https://git.launchpad.net/ubuntu/+source/sbsigntool/patch/?id=e9f13a7c4c19ed4ef12f226821bbcd2295d1af73
-  patch -Np1 -i "${srcdir}"/0.9.4-fix-pe-coff-checksum.patch
 }
 
 build() {
+  CFLAGS+=' -Wno-error=deprecated-declarations'
   cd "${pkgname}"
   ./configure --prefix="/usr" \
               --bindir="/usr/bin" \
