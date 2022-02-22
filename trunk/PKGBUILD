@@ -13,9 +13,11 @@ license=('GPL3')
 depends=('glibc' 'openssl')
 makedepends=('git' 'gnu-efi' 'help2man' 'util-linux-libs')
 source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/jejb/sbsigntools.git#tag=v${pkgver}?signed"
-        "git+https://git.ozlabs.org/ccan")
+        "git+https://git.ozlabs.org/ccan"
+         https://src.fedoraproject.org/rpms/sbsigntools/raw/rawhide/f/sbsigntools-openssl3.patch)
 sha256sums=('SKIP'
-            'SKIP')
+            'SKIP'
+            '47b537dc063d26dc2eb3e2dc008539252e9e963d2e2becef1250cb409e01924e')
 validpgpkeys=('D5606E73C8B46271BEAD9ADF814AE47C214854D6') # James Bottomley <jejb@kernel.org>
 
 prepare() {
@@ -23,10 +25,13 @@ prepare() {
   git submodule init
   git config submodule."lib/ccan.git".url "${srcdir}/ccan"
   git submodule update
+  git cherry-pick -n f12484869c9590682ac3253d583bf59b890bb826 # sbkeysync: Don't ignore errors from insert_new_keys()
+  patch -p1 -i ../sbsigntools-openssl3.patch # https://groups.io/g/sbsigntools/message/54
   ./autogen.sh
 }
 
 build() {
+  CFLAGS+=' -Wno-error=deprecated-declarations'
   cd "${pkgname}"
   ./configure --prefix="/usr" \
               --bindir="/usr/bin" \
