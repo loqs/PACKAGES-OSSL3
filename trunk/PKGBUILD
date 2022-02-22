@@ -37,6 +37,9 @@ prepare() {
 
 	# add symbol versioning to prevent conflicts with openssl 1.1 symbols (Debian)
 	patch -p1 -i "$srcdir"/openssl-1.0-versioned-symbols.patch
+
+	# change default config file name from openssl.cnf to openssl10.cnf
+	sed -i 's/openssl\.cnf/openssl10\.cnf/' e_os.h apps/srp.c apps/ca.c
 }
 
 build() {
