@@ -29,6 +29,10 @@ backup=(
 )
 options=('!emptydirs')
 source=(https://web.mit.edu/kerberos/dist/krb5/${_pkgvermajor}/${pkgname}-${pkgver}.tar.gz{,.asc}
+        krb5-fix-softpkcs11-build-issues-with-openssl3.patch::https://github.com/krb5/krb5/commit/00de1aad7b3647b91017c7009b0bc65cd0c8b2e0.patch
+        krb5-remove-deprecated-openSSL-calls-from-softpkcs11.patch::https://github.com/krb5/krb5/commit/d6bf42279675100e3e4fe7c6e08eef74d49624cb.patch
+        krb5-fix-k5tls-module-for-openssl3.patch::https://github.com/krb5/krb5/commit/aa9b4a2a64046afd2fab7cb49c346295874a5fb6.patch
+        krb5-fix-null-deref-on-TGS-inner-body-null-server.patch::https://github.com/krb5/krb5/commit/d775c95af7606a51bf79547a94fa52ddd1cb7f49.patch
         krb5-config_LDFLAGS.patch
         krb5-kadmind.service
         krb5-kdc.service
@@ -37,6 +41,10 @@ source=(https://web.mit.edu/kerberos/dist/krb5/${_pkgvermajor}/${pkgname}-${pkgv
         krb5-kpropd.socket)
 sha512sums=('b90d6ed0e1e8a87eb5cb2c36d88b823a6a6caabf85e5d419adb8a930f7eea09a5f8491464e7e454cca7ba88be09d19415962fe0036ad2e31fc584f9fc0bbd470'
             'SKIP'
+            '6ee09fe726f98a66f7b33b8edff3f2279f4ea46878d649d6255d8e534eefddad84728882c184e90613a80dbd1676ba74cb1dd26308625f8c00fbe3e844b8f447'
+            '9aba33bbfd0e83737debc61c57d33b8033626ba08b85f1ad8d505c2be9a51d7db93989d63d25cc2eb04f098ef264a7e5dc58a2e52db5b6e0e2e9ee0d5562ed90'
+            'b245a687d436e76ba987b390cfadd9bef8503ad8b35e11e855a27197912a52b6c2def7efaa8e1e916644fa60bf21777c43ff1fca651bca2e205d41e9e262d4de'
+            '3c3f6a6dadc2deaecf4d75688348e1cac5c85b7967ec42d8652362b99728ad9268b795f7fc7e3de34b50b495b496383e8cb12729a12fe0c38999203622f8aa26'
             '5a3782ff17b383f8cd0415fd13538ab56afd788130d6ad640e9f2682b7deaae7f25713ce358058ed771091040dccf62a3bc87e6fd473d505ec189a95debcc801'
             'ae1fa980e8e30a83dfef7fe233be70a9ec530ebaffc344a0e7eba61e7de4c800421b45cf203f1e526cc8351754038d6539184b30aa049a567e2a9e80f0d39841'
             'b137ff0154f9af4891e9e78cec692af47ecfd92ca9ce6e00b40ef137d942ba04e8caf483fc5d464b9559ad4a5c4e75ec57b6eab7fc35181115ca1606c0b316c1'
@@ -48,6 +56,11 @@ validpgpkeys=('2C732B1C0DBEF678AB3AF606A32F17FD0055C305'  # Tom Yu <tlyu@mit.edu
 
 prepare() {
   cd ${pkgname}-${pkgver}
+
+  patch -Np1 < "${srcdir}"/krb5-fix-softpkcs11-build-issues-with-openssl3.patch
+  patch -Np1 < "${srcdir}"/krb5-remove-deprecated-openSSL-calls-from-softpkcs11.patch
+  patch -Np1 < "${srcdir}"/krb5-fix-k5tls-module-for-openssl3.patch
+  patch -Np1 < "${srcdir}"/krb5-fix-null-deref-on-TGS-inner-body-null-server.patch
 
   # cf https://bugs.gentoo.org/show_bug.cgi?id=448778
   patch -Np1 < "${srcdir}"/krb5-config_LDFLAGS.patch
