@@ -11,11 +11,14 @@ license=('custom:EUPL')
 replaces=('dog-dns')
 depends=('openssl')
 makedepends=('cargo')
-source=(https://github.com/ogham/${pkgname}/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz)
-b2sums=('7ea52027e73deb6db6cb67b89063cddd507246256b3ca93479a634ff6696ab6961f004da8272b4c535067868603d8218b44c3696e34b5126371a9e0d5fc36058')
+source=(https://github.com/ogham/${pkgname}/archive/v${pkgver}/${pkgname}-${pkgver}.tar.gz
+        dog-openssl-crates-update.patch)
+b2sums=('7ea52027e73deb6db6cb67b89063cddd507246256b3ca93479a634ff6696ab6961f004da8272b4c535067868603d8218b44c3696e34b5126371a9e0d5fc36058'
+        '2e07323f9ad08f804921edf03ff4bbe72a4d25138dfc7d932974ce61ad01ede88bbf04b32a864201fb4b539e7d61850e29b8c536b859dc4f1785039a6d8da64a')
 
 build() {
   cd ${pkgname}-${pkgver}
+  patch -Np1 -i ../dog-openssl-crates-update.patch
   cargo build --release --locked
 }
 
