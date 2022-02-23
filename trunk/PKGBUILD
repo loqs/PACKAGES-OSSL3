@@ -15,16 +15,19 @@ makedepends=('curl' 'freeglut' 'glu' 'inetutils' 'libnotify' 'libnsl' 'libxmu' '
 install=$pkgbase.install
 options=('!staticlibs')
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/BOINC/boinc/archive/$_tag.tar.gz"
+        boinc-openssl3-compat.patch
         boinc.bash
         boinc.desktop
         boinc.sysusers)
 sha512sums=('200587a0896aec6a7e7247132811141909aa333cb2bb9350c5ba016ffdf056413b1c5346361b311c087634b2d29cdbb204486385d8561a299b68739244c5a532'
+            '05f469d76c13f3b7313d4d215bc43b5523944248a37d397fb1596a6f176ffaa0dc612f05fd988ae62d94d0b13b7d39b6e01f7c19eb7a2f0d6fecaa195d61ae79'
             'dec4bb6e571c2d99e1f57295149399eee03a8ec41b07ec3f7f197b910d246dcd6a5eb880301c9cd3a039d8c5aa6b07babf6ab4cae5f242c419c8cd71f56b90f5'
             'b3fcd703a6f683d246242543c2f7b5fcfe403cb95b7786f1418b24c3dfb7c54c6b8c4816c0e9ae56b5ee4e4cae63f153ec522b04bf02f4f835dd90ac0e0ae204'
             '85804d7e6b7e07f06e93e8c42507f5cd0b9415257d6ac7421603a2b6084699d847ae9720c1cf9e9793b750dfb768375116843b988b287ee7c66c1374e18f7934')
 
 prepare() {
   mv boinc-client_release-*-$pkgver $pkgbase-$pkgver
+  patch -Np1 -i ../boinc-openssl3-compat.patch -d $pkgbase-$pkgver
   cp -a "$srcdir"/$pkgbase-$pkgver{,-nox}
 
   cd $pkgbase-$pkgver
