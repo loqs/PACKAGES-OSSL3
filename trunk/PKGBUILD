@@ -43,5 +43,5 @@ build() {
 
 package() {
   cd dde-file-manager-$pkgver
-  make INSTALL_ROOT="$pkgdir" install
+  make -j1 INSTALL_ROOT="$pkgdir" install
 }
