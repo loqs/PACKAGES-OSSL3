@@ -27,6 +27,11 @@ source=("git+$url.git?signed#commit=$_commit")
 sha512sums=('SKIP')
 validpgpkeys=('7CE2CB3D2AF59FE1EA22F551D0D219ED1F7E762C') # Sergio Correia <scorreia@redhat.com>
 
+prepare() {
+	cd "$pkgname"
+	git cherry-pick -n ee1dfedb9baca107e66a0fec76693c9d479dcfd9 # sss: use BN_set_word(x, 0) instead of BN_zero()
+}
+
 pkgver() {
 	cd "$pkgname"
 	git describe --tags | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g'
