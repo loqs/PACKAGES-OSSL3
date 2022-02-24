@@ -37,6 +37,8 @@ source=("https://cdn.mysql.com/Downloads/MySQLGUITools/mysql-workbench-community
 	'0001-mysql-workbench-no-check-for-updates.patch'
 	'0002-disable-unsupported-operating-system-warning.patch'
 	'0003-include-list.patch'
+	'0004-mysql-Add-OpenSSL-3.0.0-support.patch'
+	'0005-mysql-connector-c++-Add-OpenSSL-3.0.0-support.patch'
 	'arch_linux_profile.xml')
 sha256sums=('837d744e4bd988f5ba2db7f64117aa4132c8babd747d323c3e9599ff1dc3aeee'
             'SKIP'
@@ -51,9 +53,14 @@ sha256sums=('837d744e4bd988f5ba2db7f64117aa4132c8babd747d323c3e9599ff1dc3aeee'
             'cdf687f23bc6e8d52dbee9fa02b23d755e80f88476f0fc2e7c4c71cdfed3792f'
             '2d0f6dcf38f22e49ef7ab9de0230484f1ffac41b7ac40feaf5ef4538ae2f7a18'
             'e7e66ba68a21a0da87f0513f2b9550359c923a94aa7d16afe6ead063322e3d53'
+            'ac46c0274284893f2b0c24958f9b555275193c83ef36df0510f833e238fa348e'
+            'e822880899e7a6f82da2a37e29f96f6a51b77e9b8ea4e7ae08dc206f2646738c'
             'd816164098c90c432b4fe590708c14f95ab137abfe16ad1b7d498b2e83c0e265')
 
 prepare() {
+	patch -Np1 -d mysql-${_mysql_version} < "${srcdir}"/0004-mysql-Add-OpenSSL-3.0.0-support.patch
+	patch -Np1 -d mysql-connector-c++-${_connector_version}-src < "${srcdir}"/0005-mysql-connector-c++-Add-OpenSSL-3.0.0-support.patch
+
 	cd "${srcdir}/mysql-workbench-community-${pkgver}-src/"
 
 	# Disable 'Help' -> 'Check for Updates'
