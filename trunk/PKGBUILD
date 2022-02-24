@@ -25,6 +25,7 @@ validpgpkeys=('EF5D84C1838F2EB6D8968C0410378EFC2080080C') # Andrew Ayer <agwa@an
 build() {
     cd "${pkgname}-${pkgver}"
 
+    CXXFLAGS+=' -DOPENSSL_API_COMPAT=0x30000000L'
     make ENABLE_MAN=yes PREFIX=/usr
 }
 
