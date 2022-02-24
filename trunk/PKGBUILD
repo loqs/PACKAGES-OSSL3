@@ -15,12 +15,20 @@ url="https://www.agwa.name/projects/${pkgname}/"
 license=('GPL3')
 depends=('git' 'openssl')
 makedepends=('libxslt')
-source=("${url}/downloads/${pkgname}-${pkgver}.tar.gz"{,.asc})
+source=("${url}/downloads/${pkgname}-${pkgver}.tar.gz"{,.asc}
+         https://github.com/AGWA/git-crypt/pull/249/commits/c1cdc4097a90d3314bb287d51ff83c98d86a677c.patch)
 sha256sums=('6d30fcd99442d50f4b3c8d554067ff1d980cdf9f3120ee774131172dba98fd6f'
-            'SKIP')
+            'SKIP'
+            'b8dc43540bfd80993359890a6064ef51a932d9e677b3cd62527c6cff4bdfc1f4')
 b2sums=('43cb981d11b38a324fcbb50855f60aa07ea143dddb9498af63b13279ea6be245159f56315ff6bc66e08353cdc2800db07728b39d62c7b44a77b2a2bcd49ad963'
-        'SKIP')
+        'SKIP'
+        '43841d87c2c66b9ff5134c63e00ad383a290ef3242bf1eca600bcc013a209a2e1a5759018486f2abbf0d079970ce547f40f19475d2b75c3a965a7581e4f727b3')
 validpgpkeys=('EF5D84C1838F2EB6D8968C0410378EFC2080080C') # Andrew Ayer <agwa@andrewayer.name>
+
+prepare() {
+    cd "${pkgname}-${pkgver}"
+    patch -Np1 -i ../c1cdc4097a90d3314bb287d51ff83c98d86a677c.patch
+}
 
 build() {
     cd "${pkgname}-${pkgver}"
