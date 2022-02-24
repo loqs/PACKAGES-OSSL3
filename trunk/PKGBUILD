@@ -15,14 +15,17 @@ optdepends=('qpress: for compressed backups')
 options=('debug')
 source=("https://www.percona.com/downloads/Percona-XtraBackup-LATEST/Percona-XtraBackup-${pkgver//_/-}/source/tarball/percona-xtrabackup-${pkgver//_/-}.tar.gz"
         "https://boostorg.jfrog.io/artifactory/main/release/$_boost_ver/source/boost_${_boost_ver//./_}.tar.gz"
-        gcc12.patch)
+        gcc12.patch
+        xtrabackup-8.0.27-openssl3.patch::https://github.com/percona/percona-server/commit/6076ab35b961d543969abd0610419f3c2bb3ba50.patch)
 
 sha256sums=('0bcfc60b2b19723ea348e43b04bd904c49142f58d326ab32db11e69dda00b733'
             '9995e192e68528793755692917f9eb6422f3052a53c5e13ba278a228af6c7acf'
-            'c0ec91be6ea6c1068b8f75b31c7ab4d743a628a808646afc0fdd9345a8d075f2')
+            'c0ec91be6ea6c1068b8f75b31c7ab4d743a628a808646afc0fdd9345a8d075f2'
+            'f6f956fa82bacf9685d2b3c566168965bf0258b84aab2757b310826c0ca5bdbc')
 prepare() {
   mkdir build
   patch -Np1 -d percona-xtrabackup-${pkgver//_/-} <gcc12.patch
+  patch -Np1 -d percona-xtrabackup-${pkgver//_/-} <xtrabackup-8.0.27-openssl3.patch
 }
 
 build() {
