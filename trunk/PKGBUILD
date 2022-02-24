@@ -11,11 +11,23 @@ depends=(gtk3 gst-plugins-base-libs gst-plugin-gtk gst-plugins-bad gst-editing-s
 optdepends=('org.freedesktop.secrets: password storage')
 makedepends=(meson rust)
 _md5=d4168ac40fd681240964705e000dd353
-source=("https://gitlab.gnome.org/GNOME/fractal/uploads/${_md5}/${pkgname}-${pkgver}.tar.xz")
-sha256sums=('65af7912f3d04bd6b2386b023415fef26afc48d256af205256f86396a1415825')
+source=("https://gitlab.gnome.org/GNOME/fractal/uploads/${_md5}/${pkgname}-${pkgver}.tar.xz"
+         fractal-4.4.0-i18n-meson-fix.patch::https://gitlab.gnome.org/GNOME/fractal/-/commit/6fa1a23596d65d94aa889efe725174e6cd2903f0.patch
+         fractal-4.4.0-openssl-crates-update.patch)
+sha256sums=('65af7912f3d04bd6b2386b023415fef26afc48d256af205256f86396a1415825'
+            'd417d6fef72d83ac790b22f6264ce36135aa45aea338db1ae6b6a771bf03c550'
+            '6af39584ddb691881cc0b6b230f841e92168a9686e97a589db2793baceddec49')
+
+prepare() {
+    cd ${pkgname}-${pkgver}
+    patch -p1 -i ../fractal-4.4.0-i18n-meson-fix.patch
+    patch -p1 -i ../fractal-4.4.0-openssl-crates-update.patch
+    rm .cargo/config # remove config enabling vendoring so updated crates will be downloaded
+}
 
 build() {
     cd ${pkgname}-${pkgver}
+    CFLAGS+=' -ffat-lto-objects'
     arch-meson . _build
     meson compile -C _build
 }
