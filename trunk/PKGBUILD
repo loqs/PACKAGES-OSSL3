@@ -12,8 +12,14 @@ arch=('x86_64')
 url="https://partclone.org"
 license=('GPL')
 depends=('progsreiserfs' 'ntfs-3g' 'nilfs-utils')
-source=($pkgname-$pkgver.tar.gz::https://github.com/Thomas-Tsai/partclone/archive/$pkgver.tar.gz)
-md5sums=('011fd357ceb590d6fc1b8d0e8d4652fc')
+source=($pkgname-$pkgver.tar.gz::https://github.com/Thomas-Tsai/partclone/archive/$pkgver.tar.gz
+        partclone-0.3.18-fix-wprintw.patch::https://sources.debian.org/data/main/p/partclone/0.3.17%2Bdfsg-1/debian/patches/fix-wprintw.patch)
+md5sums=('011fd357ceb590d6fc1b8d0e8d4652fc'
+         '2274b1342543d512d1b47449f2acc9a3')
+
+prepare() {
+  patch -Np1 -i ../partclone-0.3.18-fix-wprintw.patch -d $pkgname-$pkgver
+}
 
 build() {
   cd $pkgname-$pkgver
