@@ -1,0 +1,28 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index e15700b..8b50a59 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -1100,9 +1100,9 @@ checksum = "af8b08b04175473088b46763e51ee54da5f9a164bc162f615b91bc179dbf15a3"
+ 
+ [[package]]
+ name = "openssl"
+-version = "0.10.33"
++version = "0.10.38"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a61075b62a23fef5a29815de7536d940aa35ce96d18ce0cc5076272db678a577"
++checksum = "0c7ae222234c30df141154f159066c5093ff73b63204dcda7121eb082fc56a95"
+ dependencies = [
+  "bitflags",
+  "cfg-if",
+@@ -1120,9 +1120,9 @@ checksum = "77af24da69f9d9341038eba93a073b1fdaaa1b788221b00a69bce9e762cb32de"
+ 
+ [[package]]
+ name = "openssl-sys"
+-version = "0.9.61"
++version = "0.9.72"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "313752393519e876837e09e1fa183ddef0be7735868dced3196f4472d536277f"
++checksum = "7e46109c383602735fa0a2e48dd2b7c892b048e1bf69e5c3b1d804b7d9c203cb"
+ dependencies = [
+  "autocfg",
+  "cc",

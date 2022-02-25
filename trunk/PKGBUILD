@@ -9,11 +9,14 @@ url=https://rinkcalc.app
 license=('GPL3' 'MPL2')
 depends=('gcc-libs' 'openssl')
 makedepends=('rust')
-source=("rink-$pkgver.tar.gz::https://static.crates.io/crates/rink/rink-$pkgver.crate")
-b2sums=('a05c1605d6da18bd6d82413c1ce989ef41a154e0ceaddaca747ca705d2623f36c9d2110692a43d0c479354f308ab2152255c8f13027edbc2941750854f79b547')
+source=("rink-$pkgver.tar.gz::https://static.crates.io/crates/rink/rink-$pkgver.crate"
+         rink-openssl-crates-update.patch)
+b2sums=('a05c1605d6da18bd6d82413c1ce989ef41a154e0ceaddaca747ca705d2623f36c9d2110692a43d0c479354f308ab2152255c8f13027edbc2941750854f79b547'
+        'cee8ca7e27444f9dabfe2721ed512deee9f7cb74cea848f6c9c01a24844fde7d35bfa2ab2749a38e15ed2a4f70fc0f109998477bc5d614a68e22d8610bfe95ad')
 
 prepare() {
   cd rink-$pkgver
+  patch -Np1 -i ../rink-openssl-crates-update.patch
   cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
 }
 
