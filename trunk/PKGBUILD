@@ -26,6 +26,7 @@ prepare() {
 
 build() {
   cd ${pkgbase}-${pkgver}
+  CFLAGS+=' -ffat-lto-objects'
   cargo build --frozen --release --workspace
   make docs
 }
