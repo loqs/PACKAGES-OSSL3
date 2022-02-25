@@ -10,7 +10,7 @@ license=(Apache)
 provides=(s2n) # upstream renamed the project from s2n to s2n-tls
 conflicts=(s2n)
 replaces=(s2n)
-depends=(openssl)
+depends=(openssl-1.1)
 makedepends=(cmake)
 source=(s2n-tls-$pkgver.zip::https://github.com/aws/s2n-tls/archive/v$pkgver.zip)
 sha256sums=('9edf8fa0b03fdea4788d4b39de93dd52eb5ead700ece3b10160cff40a70726a3')
@@ -19,6 +19,7 @@ build() {
   cd s2n-tls-$pkgver
 
   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DUNSAFE_TREAT_WARNINGS_AS_ERRORS=OFF \
+      -DLibCrypto_FOUND=true -DLibCrypto_INCLUDE_DIR=/usr/include/openssl-1.1 -DLibCrypto_SHARED_LIBRARY=/usr/lib/libcrypto.so.1.1 \
       -S . -B build
   cmake --build build
 }
