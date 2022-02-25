@@ -15,13 +15,20 @@ install=$pkgname.install
 backup=('etc/nrpe/nrpe.cfg' 'etc/xinetd.d/nrpe')
 url="https://github.com/NagiosEnterprises/nrpe"
 source=(https://github.com/NagiosEnterprises/nrpe/releases/download/$pkgname-$pkgver/$pkgname-$pkgver.tar.gz
-        nrpe.sysusers)
+        nrpe.sysusers
+        nrpe_reproducible_dh.h.patch) #https://bugs.debian.org/834857
 md5sums=('42252d3c721c87ebb5e38b748f187e8d'
-         '079d1f8c06598303be95151a8985927b')
+         '079d1f8c06598303be95151a8985927b'
+         'fa514e63f52e2d57ae88b8117cc71c41')
+
+prepare() {
+  cd $pkgname-$pkgver
+  patch -p1 -i ../nrpe_reproducible_dh.h.patch
+  autoconf -f
+}
 
 build() {
   cd $pkgname-$pkgver
-
   ./configure \
     --prefix=/usr \
     --sysconfdir=/etc/nrpe \

@@ -1,0 +1,48 @@
+--- a/macros/ax_nagios_get_ssl
++++ b/macros/ax_nagios_get_ssl
+@@ -288,15 +288,7 @@ if test x$SSL_TYPE != xNONE; then
+ 		# Find the openssl program
+ 
+ 		if test x$need_dh = xyes; then
+-			AC_PATH_PROG(sslbin,openssl,value-if-not-found,$ssl_dir/sbin$PATH_SEPARATOR$ssl_dir/bin$PATH_SEPARATOR$PATH)
+ 			AC_DEFINE(USE_SSL_DH)
+-			# Generate DH parameters
+-			if test -f "$sslbin"; then
+-				echo ""
+-				echo "*** Generating DH Parameters for SSL/TLS ***"
+-				# awk to strip off meta data at bottom of dhparam output
+-				$sslbin dhparam -C 2048 | awk '/^-----/ {exit} {print}' > include/dh.h
+-			fi
+ 		fi
+ 	fi
+ fi
+--- a/src/nrpe.c
++++ b/src/nrpe.c
+@@ -40,11 +40,6 @@
+ #include "utils.h"
+ #include "acl.h"
+ 
+-#ifdef HAVE_SSL
+-# ifdef USE_SSL_DH
+-#  include "../include/dh.h"
+-# endif
+-#endif
+ #ifndef HAVE_ASPRINTF
+ extern int asprintf(char **ptr, const char *format, ...);
+ #endif
+@@ -471,9 +466,12 @@ void init_ssl(void)
+ 		}
+ 
+ #ifdef USE_SSL_DH
+-		dh = get_dh2048();
+-		SSL_CTX_set_tmp_dh(ctx, dh);
+-		DH_free(dh);
++		if (!SSL_CTX_set_dh_auto(ctx, 1))
++		{
++			SSL_CTX_free(ctx);
++			logit(LOG_ERR, "Error: Could not set automatic use of DH.");
++			exit(STATE_CRITICAL);
++		}
+ #endif
+ 	}
+ 
