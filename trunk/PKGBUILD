@@ -27,6 +27,7 @@ prepare() {
   git config submodule."src/dfxml".url "$srcdir/dfxml"
   git config submodule."src/http-parser".url "$srcdir/http-parser"
   git submodule update
+  git cherry-pick -n a0697509c4657e2fd94f941e43a2d4c86ddf9fe4 # fix format security
 
   autoreconf -vi
 }
