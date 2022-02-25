@@ -13,8 +13,14 @@ optdepends=('python: to run included scripts'
             'unrar: unpacking archives'
             'p7zip: unpacking archives')
 changelog=$pkgname.changelog
-source=(https://github.com/nzbget/$pkgname/releases/download/v$pkgver/$pkgname-$pkgver-src.tar.gz)
-sha256sums=('4e8fc1beb80dc2af2d6a36a33a33f44dedddd4486002c644f4c4793043072025')
+source=(https://github.com/nzbget/$pkgname/releases/download/v$pkgver/$pkgname-$pkgver-src.tar.gz
+        nzbget_21.1_openssl3_update.patch::https://github.com/nzbget/nzbget/pull/793/commits/f76e8555504e3af4cf8dd4a8c8e374b3ca025099.patch)
+sha256sums=('4e8fc1beb80dc2af2d6a36a33a33f44dedddd4486002c644f4c4793043072025'
+            '2c45882540adb98712fd69a8e38fe098fa5846f3be6e71b8b93f831e84a6a47c')
+
+prepare() {
+  patch -Np1 -i ../nzbget_21.1_openssl3_update.patch -d $pkgname-$pkgver
+}
 
 build() {
   cd $pkgname-$pkgver
