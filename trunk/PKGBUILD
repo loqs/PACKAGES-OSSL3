@@ -14,6 +14,7 @@ sha512sums=('5d2e08178be54350e8672245023d601a0d9d520f8c49e977af49d7c59b91d033c14
 validpgpkeys=('D6B4D8BAC7E0CC97DCD4AC7272E88B53F7A95D84') # Andreas Fuchs <andreas.fuchs@sit.fraunhofer.de>
 
 build() {
+	CFLAGS+=' -Wno-error'
 	cd "$pkgname-$pkgver"
 	./configure --prefix=/usr $( ((CHECKFUNC)) && echo --enable-unit --enable-integration)
 	make
@@ -21,6 +22,7 @@ build() {
 
 check() {
 	cd "$pkgname-$pkgver"
+	sed -i 's/unable to load Private Key/failed loading private key/' test/failload.sh
 	make check
 }
 
