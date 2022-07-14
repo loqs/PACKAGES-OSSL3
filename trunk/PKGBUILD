@@ -87,6 +87,10 @@ prepare() {
   bundle-2.7 lock --update=bundler-audit
   # 'lock' adds 'BUNDLED WITH' back. Remove it again.
   sed -e '/BUNDLED WITH/,+1d' -i Gemfile.lock
+  # https://gitlab.com/gitlab-org/gitlab/-/issues/376417
+  sed -e "/gem 'openssl', '2.2.1'/d" -i Gemfile
+  bundle-2.7 lock --update=webauthn
+  sed -e '/BUNDLED WITH/,+1d' -i Gemfile.lock
 }
 
 build() {
