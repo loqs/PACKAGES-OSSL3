@@ -8,7 +8,7 @@ pkgdesc="Evented I/O for V8 javascript (LTS release: Fermium)"
 arch=(x86_64)
 url="https://nodejs.org/"
 license=(MIT)
-depends=(openssl zlib icu libuv c-ares brotli libnghttp2) # http-parser
+depends=(zlib icu libuv c-ares brotli libnghttp2) # http-parser
 makedepends=(python procps-ng)
 optdepends=('npm: nodejs package manager')
 provides=("nodejs=$pkgver")
@@ -39,7 +39,6 @@ build() {
     --prefix=/usr \
     --with-intl=system-icu \
     --without-npm \
-    --shared-openssl \
     --shared-zlib \
     --shared-libuv \
     --experimental-http-parser \
@@ -53,6 +52,9 @@ build() {
 }
 
 check() {
+  export OPENSSL_CONF="" # openssl-1.1 can not handle the default openssl3 conf
+                         # possibly change OPENSSL_CONF from openssl.cnf in node-v14.19.3/deps/openssl/openssl/include/internal/cryptlib.h
+                         # so a separate config file is used
   cd node-v${pkgver}
   make test-only
 }
